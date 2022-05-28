@@ -5,6 +5,58 @@
 #include <algorithm>
 using namespace std;
 
+
+
+template<typename T>
+    int findMax(T *arr,int size)
+    {
+        int maxTMP = -15;
+        for(int idx=0;idx<size;idx++)
+        {
+          
+            if (arr->at(idx)>maxTMP)
+            {
+                maxTMP=arr->at(idx);
+            }
+        }
+        return maxTMP;
+    }
+    
+/*
+This function is used to find the maximum possible sum among
+1. all nonempty subarrays.
+2. all nonempty subsequences.
+Sample inputs: [1 2 3 4] and [2 -1 2 3 4 -5]
+Sample outputs: [10 10] [10 11]
+*/
+vector<int> maxSubarray(vector<int> arr) {
+    // find the maximum value of array
+    if (findMax(&arr,arr.size())<0)
+    {
+        vector<int>arr_max{findMax(&arr,arr.size()),findMax(&arr,arr.size())};
+        return arr_max;
+    }   
+    int global_value=0;
+    int local_value =0;
+    int sumMax =0;
+    for(int idx=0;idx<arr.size();idx++)
+    {
+        local_value=max(0,arr[idx]+local_value);
+        global_value=max(local_value,global_value);
+        if(arr[idx]>0)
+        {
+            sumMax+=arr[idx];
+        }
+    }
+    
+    vector<int> result{global_value,sumMax};
+    return result;
+}
+/*
+======================================================================================================================================================
+*/
+
+
  int main()
  {
      // set the size of arrary
